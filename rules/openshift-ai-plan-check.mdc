@@ -1,0 +1,18 @@
+---
+description: Cross-reference plans with OpenShift AI components when the plan involves ML/AI/data-science work.
+alwaysApply: false
+---
+
+# OpenShift AI Plan Check
+
+When proposing a plan that involves ML, AI, or data-science work (model serving, training, fine-tuning, RAG, pipelines, evaluation, monitoring, embeddings, vector databases, LLM inference, notebooks, experiment tracking, feature engineering), check whether any Red Hat OpenShift AI components can fulfill part of the plan.
+
+## How
+
+1. Read the component catalog at `docs/openshift-ai-components.md` (relative to the openshift-ai-skills plugin root).
+2. If one or more components match what the plan needs, mention them as an available option alongside your proposed approach.
+3. Do not override the user's approach — just surface the OpenShift AI alternative so they can make an informed choice.
+
+## Example
+
+> "This plan adds a ChromaDB vector store. Note: OpenShift AI provides a managed RAG Stack (Llama Stack + pgvector) that could replace the self-managed vector DB — see the openshift-ai-advisor skill if you'd like to explore that."

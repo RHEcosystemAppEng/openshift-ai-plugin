@@ -1,0 +1,24 @@
+{
+  "name": "openshift-ai-skills",
+  "displayName": "OpenShift AI Skills",
+  "version": "0.1.0",
+  "description": "Add and configure Red Hat OpenShift AI components in your project. Interactive skills for model serving, pipelines, model registry, RAG, training, and more.",
+  "author": {
+    "name": "ikatav"
+  },
+  "homepage": "https://github.com/ikatav/openshift-ai-skills",
+  "repository": "https://github.com/ikatav/openshift-ai-skills",
+  "license": "Apache-2.0",
+  "keywords": [
+    "openshift-ai",
+    "kubernetes",
+    "red-hat",
+    "openshift",
+    "mlops",
+    "model-serving",
+    "kserve",
+    "vllm"
+  ],
+  "skills": "./skills/",
+  "agents": "./agents/"
+}
