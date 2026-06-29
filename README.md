@@ -1,8 +1,23 @@
 # OpenShift AI Skills
 
-Deploy Red Hat OpenShift AI components into your project. Tell the agent what you need — it handles manifests, wiring, and verification.
+- **Discovery** — knowing what OpenShift AI offers and which components are relevant to your project takes time.
+- **Integration** — deploying and wiring OpenShift AI components into an existing codebase is not straightforward.
+
+This plugin provides an AI advisor that solves both problems. It analyzes your repository, recommends OpenShift AI components — both migrations from your current infrastructure and net-new additions — and then implements the selected components while you stay in the loop.
+
+### Example
+
+Suppose your project already contains a RAG pipeline. The advisor will suggest:
+
+1. **Migrate** to the OpenShift AI RAG Stack.
+2. **Add** RAGAS for evaluation.
+3. **Add** AutoRAG for chunking optimization.
+
+You pick what to adopt — for example, only the RAG Stack migration. The agent then proposes implementation approaches, wires the component into your project, and verifies it works in your environment. You do not need prior knowledge of OpenShift AI; the advisor handles the details.
 
 Works with **Cursor**, **Claude Code**, and **OpenAI Codex**.
+
+Tested and refined across multiple repositories over 40+ iterations.
 
 ## Install
 
