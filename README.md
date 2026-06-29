@@ -2,7 +2,7 @@
 
 Deploy Red Hat OpenShift AI components into your project. Tell the agent what you need — it handles manifests, wiring, and verification.
 
-Works with **Cursor**, **Claude Code**, **OpenAI Codex**, **GitHub Copilot**, **Windsurf/Devin**, and **Cline**.
+Works with **Cursor**, **Claude Code**, and **OpenAI Codex**.
 
 ## Install
 
@@ -38,20 +38,6 @@ git clone https://github.com/ikatav/openshift-ai-skills.git \
 
 Then use `@plugin-creator` to add it to your personal marketplace, or invoke skills directly with `@openshift-ai-skills`.
 
-### GitHub Copilot / Windsurf (Devin) / Cline
-
-These tools read `AGENTS.md` automatically. Clone into your project or add as a submodule:
-
-```bash
-git submodule add https://github.com/ikatav/openshift-ai-skills.git openshift-ai-skills
-```
-
-Or symlink the `AGENTS.md` to your project root:
-
-```bash
-ln -s openshift-ai-skills/AGENTS.md AGENTS.md
-```
-
 ## Skills
 
 | Skill | What it does |
@@ -66,7 +52,6 @@ ln -s openshift-ai-skills/AGENTS.md AGENTS.md
 | Cursor | `/openshift-ai-advisor` | `/add-openshift-ai-component` |
 | Claude Code | `/openshift-ai-skills:openshift-ai-advisor` | `/openshift-ai-skills:add-openshift-ai-component` |
 | OpenAI Codex | `@openshift-ai-skills openshift-ai-advisor` | `@openshift-ai-skills add-openshift-ai-component` |
-| Copilot / Windsurf / Cline | Follow the workflow in `AGENTS.md` | Follow the workflow in `AGENTS.md` |
 
 ## How it works
 
@@ -78,27 +63,6 @@ ln -s openshift-ai-skills/AGENTS.md AGENTS.md
 6. Deploys and verifies — nothing is applied without your approval.
 
 All generated manifests and tests align with the OpenShift AI version running on your cluster, not a hardcoded default.
-
-## Project structure
-
-```
-openshift-ai-skills/
-├── .cursor-plugin/plugin.json      # Cursor plugin manifest
-├── .claude-plugin/plugin.json      # Claude Code plugin manifest
-├── .codex-plugin/plugin.json       # OpenAI Codex plugin manifest
-├── AGENTS.md                       # Cross-tool standard (Copilot, Windsurf, Cline)
-├── skills/                         # Skill definitions (shared by all plugin systems)
-│   ├── openshift-ai-advisor/
-│   └── add-openshift-ai-component/
-├── agents/                         # Sub-agent definitions
-│   └── unbiased-test-writer.md
-├── rules/                          # Cursor-specific rules (.mdc)
-├── docs/                           # Component catalog
-│   └── openshift-ai-components.md
-└── common/                         # Shared references
-    ├── cluster-checks.md
-    └── project-detection.md
-```
 
 ## Prerequisites
 
