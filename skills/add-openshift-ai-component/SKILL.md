@@ -56,7 +56,7 @@ After all decisions are resolved, present the complete plan: component name and 
 
 For the current deployment target:
 
-**Manifests and config.** Generate the resources the component needs. Match the project's deployment style and place them alongside existing deployment assets. Prefer OpenDataHub images over downstream when available. Search online for CRDs people use to deploy the component. Never guess CRD schemas or field names.
+**Manifests and config.** Generate the resources the component needs. Match the project's deployment style and place them alongside existing deployment assets. Prefer OpenDataHub images over downstream when available. The component must be managed by the OpenShift AI operator — enable it via the DataScienceCluster CR so the operator installs its CRDs. If additional CRDs beyond what the operator provides are needed, ask the user for explicit permission before installing them. Never guess CRD schemas or field names.
 
 **Wire into the project.** Connect the component to application code (endpoints, env vars, SDK clients). This step is required, not optional. Limit changes to the minimum wiring needed.
 
