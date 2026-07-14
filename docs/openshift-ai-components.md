@@ -1,12 +1,14 @@
-# Red Hat OpenShift AI Self-Managed 3.4 — Components Reference
+# Red Hat OpenShift AI Self-Managed 3.5 — Components Reference
 
-Reference: [OpenShift AI Self-Managed 3.4 Documentation](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.4)
+Reference: [OpenShift AI Self-Managed 3.5 Documentation](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5)
 
 ---
 
 ## Model Serving & Inference
 
 ### KServe (Single-Model Serving Platform)
+**Details:** [Model serving platform](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/configuring_your_model-serving_platform/configuring-your-model-serving-platform_rhoai-admin#model_serving_platform)
+**How to use:** [Deploying models on the model serving platform](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/deploying_models/deploying_models#deploying-models-on-the-model-serving-platform_rhoai-user)
 
 A Kubernetes-native model serving platform that deploys each model from its own dedicated model server. KServe manages the full lifecycle of model deployments including storage access, networking, scaling, and authorization via `ServingRuntime` and `InferenceService` CRDs.
 
@@ -19,6 +21,8 @@ A Kubernetes-native model serving platform that deploys each model from its own 
 - For Knative (serverless) mode: install OpenShift Serverless (Knative Serving) and OpenShift Service Mesh.
 
 ### vLLM Serving Runtimes
+**Details:** [vLLM NVIDIA GPU ServingRuntime for KServe](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/deploying_models/making_inference_requests_to_deployed_models#vllm_nvidia_gpu_servingruntime_for_kserve)
+**How to use:** [Customizing the vLLM model-serving runtime](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/configuring_your_model-serving_platform/customizing_model_deployments#Customizing-the-vllm-runtime_rhoai-admin)
 
 High-performance LLM inference engine available as multiple pre-configured `ServingRuntime` variants for KServe. Supports hardware-specific runtimes for NVIDIA GPU, AMD GPU (ROCm), Intel Gaudi, IBM Spyre, and CPU-only inference.
 
@@ -32,6 +36,8 @@ High-performance LLM inference engine available as multiple pre-configured `Serv
 - For CPU-only inference: no accelerator operators needed.
 
 ### Distributed Inference with llm-d
+**Details:** [Deploying models by using Distributed Inference with llm-d](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/deploy_models_using_distributed_inference_with_llm-d/deploying-models-using-distributed-inference_distributed-inference)
+**How to use:** [Enabling Distributed Inference with llm-d](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/deploy_models_using_distributed_inference_with_llm-d/deploying-models-using-distributed-inference_distributed-inference#enabling-distributed-inference_distributed-inference)
 
 A Kubernetes-native framework (led by Red Hat with Google, NVIDIA, AMD, Hugging Face) for serving LLMs at scale across multiple nodes. Uses intelligent AI-aware network routing, disaggregated prefill/decode phases, and KV-cache-aware scheduling via the `LLMInferenceService` CRD.
 
@@ -45,6 +51,8 @@ A Kubernetes-native framework (led by Red Hat with Google, NVIDIA, AMD, Hugging 
 - KServe must be installed and enabled.
 
 ### Models-as-a-Service (MaaS)
+**Details:** [Models-as-a-Service overview](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/govern_llm_access_with_models-as-a-service/deploy-and-manage-models-as-a-service_maas#maas-overview_maas-deploy)
+**How to use:** [Access models through Models-as-a-Service](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/govern_llm_access_with_models-as-a-service/use-models-as-a-service_maas-deploy#access-models-with-maas_maas-user)
 
 Provides governed access to externally hosted LLMs (e.g. cloud provider APIs) through a unified control plane. Administrators can set quotas, RBAC, and audit policies on top of third-party model endpoints.
 
@@ -55,6 +63,8 @@ Provides governed access to externally hosted LLMs (e.g. cloud provider APIs) th
 - Network access to the external model provider APIs.
 
 ### Caikit TGIS ServingRuntime
+**Details:** [Caikit TGIS ServingRuntime for KServe](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/deploying_models/making_inference_requests_to_deployed_models#caikit_tgis_servingruntime_for_kserve)
+**How to use:** [Deploying models on the model serving platform](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/deploying_models/deploying_models#deploying-models-on-the-model-serving-platform_rhoai-user)
 
 A model serving runtime that uses the Caikit framework with the Text Generation Inference Server (TGIS) backend. Provides gRPC and REST inference endpoints.
 
@@ -65,6 +75,8 @@ A model serving runtime that uses the Caikit framework with the Text Generation 
 - Access to S3-compatible object storage for model artifacts.
 
 ### OpenVINO Model Server (OVMS)
+**Details:** [OpenVINO Model Server](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/deploying_models/making_inference_requests_to_deployed_models#openvino_model_server)
+**How to use:** [Deploying a model stored in an OCI image by using the CLI](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/deploying_models/deploying_models#deploying-model-stored-in-oci-image_rhoai-user)
 
 Intel's high-performance inference runtime optimized for Intel hardware. Supports a wide range of model formats and provides both REST and gRPC interfaces.
 
@@ -75,6 +87,8 @@ Intel's high-performance inference runtime optimized for Intel hardware. Support
 - Access to S3-compatible object storage for model artifacts.
 
 ### NVIDIA Triton Inference Server
+**Details:** [NVIDIA Triton Inference Server](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/deploying_models/making_inference_requests_to_deployed_models#nvidia_triton_inference_server)
+**How to use:** [Adding a tested and verified runtime](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/configuring_your_model-serving_platform/configuring_model_servers#adding-a-tested-and-verified-runtime_rhoai-admin)
 
 NVIDIA's multi-framework inference server supporting TensorRT, ONNX, PyTorch, TensorFlow, and more. Provides dynamic batching, model ensembles, and concurrent model execution.
 
@@ -86,6 +100,8 @@ NVIDIA's multi-framework inference server supporting TensorRT, ONNX, PyTorch, Te
 - For IBM Z or IBM Power variants: access to the IBM Cloud Container Registry or Triton Inference Server Quay repository.
 
 ### MLServer ServingRuntime
+**Details:** [MLServer ServingRuntime for KServe](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/deploying_models/making_inference_requests_to_deployed_models#mlserver_servingruntime_for_kserve)
+**How to use:** [Deploying models by using the MLServer runtime](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/deploying_models/deploying_models#deploying-models-using-mlserver-runtime_rhoai-user)
 
 A model serving runtime for KServe that supports multiple ML frameworks (scikit-learn, XGBoost, LightGBM, MLflow) through a plugin architecture.
 
@@ -100,6 +116,8 @@ A model serving runtime for KServe that supports multiple ML frameworks (scikit-
 ## Model Management
 
 ### Model Registry
+**Details:** [Overview of the model catalog and model registries](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/working_with_model_registries/overview-of-model-registries_working-model-registry#model_registry)
+**How to use:** [Working with model registries](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/working_with_model_registries/working-with-model-registries_model-registry)
 
 A centralized service for storing, versioning, and promoting ML models with metadata. Supports OCI-compliant storage (ModelCar format), RBAC-based access control, and PostgreSQL-backed metadata. Models can be registered from S3-compatible storage or URIs and automatically converted to OCI images.
 
@@ -111,6 +129,8 @@ A centralized service for storing, versioning, and promoting ML models with meta
 - Access to S3-compatible object storage for OCI-compliant model storage.
 
 ### Model Catalog
+**Details:** [Overview of the model catalog and model registries](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/working_with_the_model_catalog/overview-of-model-registries_working-model-catalog)
+**How to use:** [Discovering and evaluating models in the model catalog](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/working_with_the_model_catalog/viewing-models-in-the-catalog_working-model-catalog)
 
 A curated, searchable catalog of validated third-party models that are ready for deployment. Administrators can govern which model sources are available to teams.
 
@@ -125,6 +145,8 @@ A curated, searchable catalog of validated third-party models that are ready for
 ## Agentic AI & RAG
 
 ### Llama Stack (Operator)
+**Details:** [Overview of OGX](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/working_with_ogx/overview-of-ogx_rag)
+**How to use:** [Activating the OGX Operator](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/working_with_ogx/activating-the-ogx-operator_rag)
 
 A unified AI runtime managed by the Llama Stack Operator that integrates model inference, embedding generation, vector storage, and retrieval services into a single stack. Provides OpenAI-compatible APIs (Chat Completions, Responses API) for RAG and agentic workflows. Managed via the `LlamaStackDistribution` CRD.
 
@@ -140,6 +162,8 @@ A unified AI runtime managed by the Llama Stack Operator that integrates model i
 - Access to S3-compatible object storage for model artifacts.
 
 ### RAG Stack Deployment
+**Details:** [Overview of OGX](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/working_with_ogx/overview-of-ogx_rag)
+**How to use:** [OGX application examples (RAG stack)](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/working_with_ogx/ogx-adv-examples_rag)
 
 An administrator-driven deployment pattern that provisions the full RAG infrastructure: LLM inference (vLLM), vector storage (PostgreSQL with pgvector), embedding service, and retrieval endpoints — all managed as a single unit.
 
@@ -152,6 +176,8 @@ An administrator-driven deployment pattern that provisions the full RAG infrastr
 - GPU-enabled nodes for the LLM inference and embedding services.
 
 ### AutoRAG
+**Details:** [AutoRAG overview](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/working_with_autorag/autorag-overview_autorag)
+**How to use:** [Create an AutoRAG optimization run](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/working_with_autorag/creating-autorag-optimization-run_autorag)
 
 An automated pipeline for building and optimizing RAG systems. Evaluates different retrieval strategies, chunking approaches, and embedding models to find the best configuration for your data and use case.
 
@@ -166,6 +192,8 @@ An automated pipeline for building and optimizing RAG systems. Evaluates differe
 ## Development Environment
 
 ### Workbenches
+**Details:** [Overview (workbench CRDs)](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/creating_a_workbench/api-workbench-overview_api-workbench)
+**How to use:** [Using project workbenches](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/working_on_projects/using-project-workbenches_projects)
 
 Browser-based development environments (Jupyter, VS Code, RStudio) pre-configured with data science libraries, GPU access, and secure connections to cluster resources. Provisioned via CRDs or the dashboard with resource quotas and hardware profiles.
 
@@ -176,6 +204,8 @@ Browser-based development environments (Jupyter, VS Code, RStudio) pre-configure
 - To use a custom workbench namespace, create the namespace before installing the OpenShift AI Operator.
 
 ### Custom Notebook Images
+**Details:** [Creating custom workbench images](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/managing_openshift_ai/creating-custom-workbench-images)
+**How to use:** [Creating a custom image by using the ImageStream CRD](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/creating_a_workbench/api-custom-image-creating_api-workbench)
 
 Administrator-published container images that extend the default workbench environments with additional libraries, tools, or configurations specific to your organization.
 
@@ -187,6 +217,7 @@ Administrator-published container images that extend the default workbench envir
 - If the cluster is running in FIPS mode, custom images must be based on UBI 9 or RHEL 9.
 
 ### Data Science Projects
+**Docs:** [Using projects](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/working_on_projects/using-projects_projects)
 
 Namespace-scoped organizational units that group workbenches, pipelines, model servers, data connections, and storage into a single manageable entity with RBAC.
 
@@ -196,6 +227,8 @@ Namespace-scoped organizational units that group workbenches, pipelines, model s
 - OpenShift AI dashboard component must be enabled.
 
 ### S3-Compatible Object Storage Connections
+**Details:** [Using connections](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/working_on_projects/using-connections_projects)
+**How to use:** [Creating an S3 client](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/working_with_data_in_an_s3-compatible_object_store/creating-an-s3-client_s3)
 
 First-class integration for connecting workbenches and pipelines to S3-compatible storage (AWS S3, MinIO, Ceph) for storing datasets, model artifacts, and pipeline outputs.
 
@@ -210,6 +243,8 @@ First-class integration for connecting workbenches and pipelines to S3-compatibl
 ## Pipelines & Automation
 
 ### Data Science Pipelines (Kubeflow Pipelines)
+**Details:** [Managing AI pipelines](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/working_with_ai_pipelines/managing-ai-pipelines_ai-pipelines)
+**How to use:** [Managing pipeline runs](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/working_with_ai_pipelines/managing-pipeline-runs_ai-pipelines)
 
 KFP-based pipeline engine for defining, versioning, scheduling, and tracking multi-step ML workflows. Supports DAG-based task orchestration, artifact tracking in S3, parameterized runs, and scheduled recurring executions.
 
@@ -222,6 +257,8 @@ KFP-based pipeline engine for defining, versioning, scheduling, and tracking mul
 - To use your own Argo Workflows instance, set `argoWorkflowsControllers.managementState` to `Removed` in the `DataScienceCluster`.
 
 ### Kubeflow Spark Operator (KSO)
+**Details:** [Overview of the Kubeflow Spark Operator (KSO)](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/creating_distributed_data_processing_applications_with_the_kubeflow_spark_operator/overview-of-kubeflow-operator_data-processing)
+**How to use:** [Using the Kubeflow Spark Operator](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/creating_distributed_data_processing_applications_with_the_kubeflow_spark_operator/using-the-ks-operator_data-processing)
 
 Enables running Apache Spark applications as Kubernetes-native workloads for distributed data processing. Integrates with OpenShift AI for large-scale ETL and feature engineering.
 
@@ -236,6 +273,8 @@ Enables running Apache Spark applications as Kubernetes-native workloads for dis
 ## Training & Fine-Tuning
 
 ### Distributed Workloads (KubeRay, Training Operator)
+**Details:** [Overview of distributed workloads](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/working_with_distributed_workloads/overview-of-distributed-workloads_distributed-workloads)
+**How to use:** [Running Ray-based distributed workloads](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/working_with_distributed_workloads/running-ray-based-distributed-workloads_distributed-workloads)
 
 Infrastructure for distributing ML training and data processing jobs across multiple nodes with GPU-aware scheduling, auto-scaling, and monitoring. Supports frameworks like PyTorch, TensorFlow, and Ray.
 
@@ -249,6 +288,8 @@ Infrastructure for distributing ML training and data processing jobs across mult
 - For GPU workloads: enable GPU support and install the relevant GPU operator.
 
 ### Model Customization (Fine-Tuning)
+**Details:** [Overview of the model customization workflow](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/customize_models_for_gen_ai_and_agentic_ai_applications/overview-of-the-model-customization-workflow_custom-models)
+**How to use:** [Train the model by using your prepared data](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/customize_models_for_gen_ai_and_agentic_ai_applications/train-the-model-by-using-your-prepared-data_custom-models)
 
 Tools and workflows for customizing pre-trained models (LoRA, QLoRA, full fine-tuning) for domain-specific tasks. Integrates with the training operator and distributed workloads infrastructure.
 
@@ -260,6 +301,8 @@ Tools and workflows for customizing pre-trained models (LoRA, QLoRA, full fine-t
 - Access to S3-compatible object storage for datasets and model checkpoints.
 
 ### AutoML
+**Details:** [AutoML overview](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/working_with_automl/automl-overview_automl)
+**How to use:** [Create an AutoML optimization run](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/working_with_automl/creating-automl-optimization-run_automl)
 
 Automated machine learning that searches for optimal model architectures, hyperparameters, and preprocessing steps for a given dataset and objective.
 
@@ -274,6 +317,8 @@ Automated machine learning that searches for optimal model architectures, hyperp
 ## Evaluation & Safety
 
 ### LM Evaluation (LMEval)
+**Details:** [Overview of evaluating AI systems](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/evaluating_ai_systems/overview-evaluating-ai-systems_evaluate)
+**How to use:** [Evaluating LLMs with LM-Eval](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/evaluating_ai_systems/evaluating-llms-with-lm-eval_evaluate)
 
 A framework for systematically evaluating LLM performance. Configure `LMEvalJob` resources to run standardized benchmarks, compare model versions, and track metrics over time.
 
@@ -286,6 +331,8 @@ A framework for systematically evaluating LLM performance. Configure `LMEvalJob`
 - For offline evaluations from S3: access to an S3-compatible storage bucket containing the model and datasets.
 
 ### Guardrails (NeMo Guardrails)
+**Details:** [Enabling AI safety with NeMo Guardrails](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/enabling_ai_safety_with_guardrails/enabling-ai-safety-with-nemo-guardrails_nemo-guardrails)
+**How to use:** [Deploying the NeMo Guardrails service with an LLM](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/enabling_ai_safety_with_guardrails/enabling-ai-safety-with-nemo-guardrails_nemo-guardrails#deploying-the-nemo-guardrails-service-with-an-llm_nemo-guardrails)
 
 A safety framework that orchestrates detectors to filter and validate LLM inputs and outputs. Supports content filtering, sensitive data detection, topic control, and custom validation rules. Exposes guarded inference endpoints.
 
@@ -298,6 +345,7 @@ A safety framework that orchestrates detectors to filter and validate LLM inputs
 - No external NVIDIA subscription required — NeMo Guardrails is included with OpenShift AI.
 
 ### RAGAS Evaluation Provider
+**Docs:** [Overview of evaluating AI systems](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/evaluating_ai_systems/overview-evaluating-ai-systems_evaluate)
 
 Metrics framework for evaluating RAG system quality. Measures retrieval quality, answer relevance, and factual consistency to identify issues in RAG pipeline configurations.
 
@@ -312,6 +360,8 @@ Metrics framework for evaluating RAG system quality. Measures retrieval quality,
 ## Monitoring & Observability
 
 ### Model Monitoring (TrustyAI)
+**Details:** [Overview of monitoring your AI systems](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/monitoring_your_ai_systems/overview-of-monitoring-your-ai-systems_monitor)
+**How to use:** [Setting up TrustyAI for your project](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/monitoring_your_ai_systems/setting-up-trustyai-for-your-project_monitor)
 
 Monitoring service that tracks model bias, data drift, and performance degradation over time. Provides configurable metrics, thresholds, and dashboard visualizations.
 
@@ -325,6 +375,8 @@ Monitoring service that tracks model bias, data drift, and performance degradati
 - For KServe RawDeployment mode: update the `inferenceservice-config` ConfigMap and create a CA certificate ConfigMap in the model's namespace.
 
 ### Gen AI Playground
+**Details:** [Playground overview](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/experimenting_with_models_in_the_gen_ai_playground/playground-overview_rhoai-user)
+**How to use:** [Configure a playground for your project](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/experimenting_with_models_in_the_gen_ai_playground/configuring-a-playground-for-your-project_rhoai-user)
 
 An interactive browser-based environment for experimenting with deployed models. Supports prompt engineering, parameter tuning, and side-by-side model comparison.
 
@@ -339,6 +391,8 @@ An interactive browser-based environment for experimenting with deployed models.
 ## Experiment Tracking
 
 ### MLflow Integration
+**Details:** [About MLflow](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/working_with_mlflow/about-mlflow_mlflow)
+**How to use:** [Install and configure MLflow](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/working_with_mlflow/installing-mlflow_mlflow)
 
 Integration with MLflow for experiment tracking, model logging, metric recording, and artifact management. Provides a centralized view of training runs across teams.
 
@@ -353,6 +407,8 @@ Integration with MLflow for experiment tracking, model logging, metric recording
 ## Feature Management
 
 ### Feature Store
+**Details:** [Overview of machine learning features and Feature Store](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/working_with_machine_learning_features/overview-of-ml-features-and-feature-store.adoc_featurestore)
+**How to use:** [Configuring Feature Store](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/working_with_machine_learning_features/configuring_feature_store)
 
 A centralized service for defining, storing, and serving reusable machine learning features. Ensures consistent feature computation between training and serving (avoiding training-serving skew). Integrated with workbenches.
 
@@ -367,6 +423,8 @@ A centralized service for defining, storing, and serving reusable machine learni
 ## Platform & Infrastructure
 
 ### Hardware Profiles & Accelerator Management
+**Details:** [Overview of accelerators](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/working_with_accelerators/overview-of-accelerators_accelerators)
+**How to use:** [Working with hardware profiles](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/working_with_accelerators/working-with-hardware-profiles_accelerators)
 
 Administrator-configured hardware profiles that define GPU/accelerator resource allocations. Supports NVIDIA, AMD, Intel Gaudi, and IBM Spyre accelerators with the Node Feature Discovery Operator.
 
@@ -377,6 +435,8 @@ Administrator-configured hardware profiles that define GPU/accelerator resource 
 - Install the GPU operator for your hardware: NVIDIA GPU Operator, AMD GPU Operator, Intel Gaudi Base Operator, or IBM Spyre Operator.
 
 ### OpenShift Serverless (Knative Serving)
+**Details:** [About model-serving platforms](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/configuring_your_model-serving_platform/configuring-your-model-serving-platform_rhoai-admin)
+**How to use:** [Installing Knative Serving](https://docs.redhat.com/en/documentation/red_hat_openshift_serverless/1.36/html/installing_openshift_serverless/installing-knative-serving)
 
 Serverless autoscaling for model serving and agent workloads. Scales pods to zero when idle and automatically spins up when requests arrive, reducing compute costs.
 
@@ -387,6 +447,8 @@ Serverless autoscaling for model serving and agent workloads. Scales pods to zer
 - OpenShift Service Mesh must be installed if using KServe with Knative mode.
 
 ### OpenShift Service Mesh (Istio)
+**Details:** [Component requirements](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/installing_and_uninstalling_openshift_ai_self-managed/installing-and-deploying-openshift-ai_install#component_requirements)
+**How to use:** [Installing Red Hat OpenShift Service Mesh 3.x](https://docs.redhat.com/en/documentation/openshift_container_platform/4.20/html/service_mesh/service-mesh-3-x#installing-ossm-v3)
 
 Service mesh layer providing mTLS, traffic management, observability, and authorization policies for inter-service communication. Required by KServe when using Knative-based serving.
 
@@ -396,6 +458,8 @@ Service mesh layer providing mTLS, traffic management, observability, and author
 - Install the Red Hat OpenShift Service Mesh Operator from OperatorHub.
 
 ### Usage Telemetry
+**Details:** [Usage data collection notice for OpenShift AI](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/managing_resources/managing-collection-of-usage-data#usage-data-collection-notice-for-openshift-ai)
+**How to use:** [Enabling usage data collection](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/managing_resources/managing-collection-of-usage-data#enabling-usage-data-collection_data-collection)
 
 Configurable telemetry collection for tracking platform usage, resource consumption, and adoption metrics. Administrators can enable, disable, or customize what data is collected.
 
@@ -405,6 +469,7 @@ Configurable telemetry collection for tracking platform usage, resource consumpt
 - No additional operators required — configured via the OpenShift AI Operator settings.
 
 ### Stable API Tiers
+**Docs:** [Red Hat OpenShift AI: API Tiers](https://access.redhat.com/articles/7047935)
 
 Each OpenShift AI API endpoint is mapped to a support tier (stable, beta, alpha) that defines stability guarantees, deprecation timelines, and migration paths.
 
@@ -412,3 +477,43 @@ Each OpenShift AI API endpoint is mapped to a support tier (stable, beta, alpha)
 
 **Requirements:**
 - No additional requirements — API tier metadata is available in the OpenShift AI documentation.
+
+---
+
+## Solution Tags
+
+Tags describe what kind of solution a component is suited for. A component may carry more than one tag. Tags are not yet assigned to individual components in this document.
+
+| Tag | Meaning |
+|-----|---------|
+| `predictive-ml` | Classical supervised or unsupervised machine learning — classification, regression, ranking, clustering, and similar structured-data problems. |
+| `generative-ai` | Large language models and other generative models for text, code, or multimodal generation. |
+| `computer-vision` | Image and video perception workloads such as detection, segmentation, and visual classification. |
+| `nlp` | Natural language processing beyond chat alone — understanding, summarization, translation, NER, and related language tasks. |
+| `multimodal` | Models and pipelines that combine multiple input or output modalities — text, image, audio, or video — in a single workload. |
+| `rag` | Retrieval-augmented generation: indexing, retrieval, grounding answers in external or private knowledge. |
+| `semantic-search` | Embedding documents and retrieving similar content by vector similarity, with or without generative answering. |
+| `embeddings` | Generating vector representations of text or other modalities for similarity search, clustering, and retrieval. |
+| `agentic-ai` | Multi-step agents that plan, use tools, and orchestrate actions across systems. |
+| `mlops` | Model lifecycle management — versioning, promotion, registries, catalogs, and governed handoff between stages. |
+| `model-discovery` | Finding, browsing, and selecting pre-validated or cataloged models that are ready to evaluate and deploy. |
+| `data-prep` | Data preparation at scale — ETL, feature engineering, and distributed data processing ahead of training or inference. |
+| `feature-management` | Centralized definition, storage, and serving of reusable features with consistency between training and inference. |
+| `training` | Model training and fine-tuning, including distributed training and adapter-based customization. |
+| `automl` | Automated search over model architectures, hyperparameters, and preprocessing for a given dataset and objective. |
+| `serving` | Production inference — online or batch serving of models with scaling, routing, and operational controls. |
+| `batch-inference` | Offline or scheduled scoring of large datasets rather than (or in addition to) real-time online serving. |
+| `distributed-compute` | Spreading training, inference, or data processing across multiple nodes when a single machine is not enough. |
+| `distributed-inference` | Scaling inference horizontally across nodes when single-server capacity or latency SLOs are insufficient. |
+| `external-models` | Governed access to third-party or cloud-hosted model APIs without self-hosting the weights. |
+| `model-routing` | Traffic management across model versions or replicas — canary rollouts, A/B testing, and cache-aware request routing. |
+| `serverless` | Autoscaling inference and agent workloads to zero during idle periods and spinning up on demand for bursty traffic. |
+| `evaluation` | Measuring model or pipeline quality, safety, benchmarks, and regression across versions. |
+| `safety` | Runtime filtering and validation of model inputs and outputs for content policy, sensitive data, topic control, and related risk controls. |
+| `monitoring` | Continuous production observability of deployed models — drift detection, bias tracking, and performance degradation. |
+| `governance` | Quotas, RBAC, audit, policy enforcement, approved model sources, and controlled access to AI capabilities. |
+| `workflow-orchestration` | Automating repeatable multi-step ML workflows with DAG scheduling, parameterization, and artifact lineage. |
+| `experiment-tracking` | Recording and comparing training or tuning runs — parameters, metrics, and artifacts — across experiments and teams. |
+| `interactive-development` | Browser-based notebook, IDE, or playground environments for iterative prototyping and hands-on experimentation. |
+| `hardware-acceleration` | GPU and specialized accelerator enablement for compute-intensive workloads across supported hardware vendors. |
+| `platform` | Shared infrastructure and enablers that support other solution types rather than embodying one solution themselves. |
