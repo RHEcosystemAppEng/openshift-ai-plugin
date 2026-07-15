@@ -216,28 +216,6 @@ Administrator-published container images that extend the default workbench envir
 - Custom images must be published to a container registry accessible from the cluster.
 - If the cluster is running in FIPS mode, custom images must be based on UBI 9 or RHEL 9.
 
-### Data Science Projects
-**Docs:** [Using projects](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/working_on_projects/using-projects_projects)
-
-Namespace-scoped organizational units that group workbenches, pipelines, model servers, data connections, and storage into a single manageable entity with RBAC.
-
-**When to use:** When organizing work into isolated, governed projects where teams can collaborate on models, pipelines, and deployments while maintaining resource boundaries.
-
-**Requirements:**
-- OpenShift AI dashboard component must be enabled.
-
-### S3-Compatible Object Storage Connections
-**Details:** [Using connections](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/working_on_projects/using-connections_projects)
-**How to use:** [Creating an S3 client](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/working_with_data_in_an_s3-compatible_object_store/creating-an-s3-client_s3)
-
-First-class integration for connecting workbenches and pipelines to S3-compatible storage (AWS S3, MinIO, Ceph) for storing datasets, model artifacts, and pipeline outputs.
-
-**When to use:** When your data or model artifacts live in S3-compatible storage and you need seamless access from notebooks, training jobs, and model serving runtimes.
-
-**Requirements:**
-- Access to an S3-compatible object storage service (AWS S3, MinIO, Ceph, etc.) with valid credentials.
-- Workbenches or pipelines component must be enabled.
-
 ---
 
 ## Pipelines & Automation
@@ -433,50 +411,6 @@ Administrator-configured hardware profiles that define GPU/accelerator resource 
 **Requirements:**
 - Install the Node Feature Discovery Operator.
 - Install the GPU operator for your hardware: NVIDIA GPU Operator, AMD GPU Operator, Intel Gaudi Base Operator, or IBM Spyre Operator.
-
-### OpenShift Serverless (Knative Serving)
-**Details:** [About model-serving platforms](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/configuring_your_model-serving_platform/configuring-your-model-serving-platform_rhoai-admin)
-**How to use:** [Installing Knative Serving](https://docs.redhat.com/en/documentation/red_hat_openshift_serverless/1.36/html/installing_openshift_serverless/installing-knative-serving)
-
-Serverless autoscaling for model serving and agent workloads. Scales pods to zero when idle and automatically spins up when requests arrive, reducing compute costs.
-
-**When to use:** When workloads are bursty or infrequent and you want to minimize compute costs by scaling to zero during idle periods — ideal for agents or models that aren't called continuously.
-
-**Requirements:**
-- Install the OpenShift Serverless Operator from OperatorHub.
-- OpenShift Service Mesh must be installed if using KServe with Knative mode.
-
-### OpenShift Service Mesh (Istio)
-**Details:** [Component requirements](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/installing_and_uninstalling_openshift_ai_self-managed/installing-and-deploying-openshift-ai_install#component_requirements)
-**How to use:** [Installing Red Hat OpenShift Service Mesh 3.x](https://docs.redhat.com/en/documentation/openshift_container_platform/4.20/html/service_mesh/service-mesh-3-x#installing-ossm-v3)
-
-Service mesh layer providing mTLS, traffic management, observability, and authorization policies for inter-service communication. Required by KServe when using Knative-based serving.
-
-**When to use:** When you need encrypted service-to-service communication, fine-grained traffic routing (canary deployments, A/B testing), or when deploying KServe with Knative mode.
-
-**Requirements:**
-- Install the Red Hat OpenShift Service Mesh Operator from OperatorHub.
-
-### Usage Telemetry
-**Details:** [Usage data collection notice for OpenShift AI](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/managing_resources/managing-collection-of-usage-data#usage-data-collection-notice-for-openshift-ai)
-**How to use:** [Enabling usage data collection](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/managing_resources/managing-collection-of-usage-data#enabling-usage-data-collection_data-collection)
-
-Configurable telemetry collection for tracking platform usage, resource consumption, and adoption metrics. Administrators can enable, disable, or customize what data is collected.
-
-**When to use:** When administrators need visibility into platform adoption and resource utilization, or when compliance requirements dictate controlling what telemetry data leaves the cluster.
-
-**Requirements:**
-- No additional operators required — configured via the OpenShift AI Operator settings.
-
-### Stable API Tiers
-**Docs:** [Red Hat OpenShift AI: API Tiers](https://access.redhat.com/articles/7047935)
-
-Each OpenShift AI API endpoint is mapped to a support tier (stable, beta, alpha) that defines stability guarantees, deprecation timelines, and migration paths.
-
-**When to use:** When building integrations or automation against OpenShift AI APIs and you need to understand which endpoints are stable for production use versus experimental.
-
-**Requirements:**
-- No additional requirements — API tier metadata is available in the OpenShift AI documentation.
 
 ---
 
