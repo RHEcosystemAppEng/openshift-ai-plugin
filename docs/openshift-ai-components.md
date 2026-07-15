@@ -24,9 +24,17 @@ A Kubernetes-native model serving platform that deploys each model from its own 
 **Details:** [vLLM NVIDIA GPU ServingRuntime for KServe](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/deploying_models/making_inference_requests_to_deployed_models#vllm_nvidia_gpu_servingruntime_for_kserve)
 **How to use:** [Customizing the vLLM model-serving runtime](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/configuring_your_model-serving_platform/customizing_model_deployments#Customizing-the-vllm-runtime_rhoai-admin)
 
-High-performance LLM inference engine available as multiple pre-configured `ServingRuntime` variants for KServe. Supports hardware-specific runtimes for NVIDIA GPU, AMD GPU (ROCm), Intel Gaudi, IBM Spyre, and CPU-only inference.
+High-throughput **LLM / generative** inference engine for KServe. Ships as hardware-specific `ServingRuntime` variants (NVIDIA GPU, AMD GPU/ROCm, Intel Gaudi, IBM Spyre, CPU) and exposes OpenAI-compatible completion and chat endpoints for token generation. vLLM is the inference **engine** under KServe — not the full serving platform (autoscaling, canary, multi-model orchestration stay with KServe; multi-node disaggregated scale-out is **Distributed Inference with llm-d**).
 
 **When to use:** When serving large language models and you need optimized token generation throughput. Choose the runtime variant that matches your accelerator hardware (NVIDIA, AMD, Intel Gaudi, IBM Spyre, or CPU).
+
+**Common confusion:**
+- Using vLLM for scikit-learn, XGBoost, LightGBM, or other classical ML artifacts (those map to **MLServer**, **OVMS**, or **Triton**).
+- Treating vLLM as the whole serving platform rather than the engine under KServe.
+- Calling the embeddings endpoint with a generative (non-embedding) model.
+- Expecting TrustyAI drift/bias monitoring on vLLM-served LLMs (that path is OVMS + tabular).
+
+**When not to use:** Do not use vLLM for traditional ML framework models — use **MLServer** (or **OVMS** / **Triton** as appropriate). Do not choose vLLM alone when you need multi-node disaggregated LLM serving — evaluate **Distributed Inference with llm-d**. Do not use it as a substitute for evaluation or guardrails.
 
 **Requirements:**
 - KServe must be installed and the model-serving platform enabled.
@@ -103,9 +111,16 @@ NVIDIA's multi-framework inference server supporting TensorRT, ONNX, PyTorch, Te
 **Details:** [MLServer ServingRuntime for KServe](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/deploying_models/making_inference_requests_to_deployed_models#mlserver_servingruntime_for_kserve)
 **How to use:** [Deploying models by using the MLServer runtime](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/deploying_models/deploying_models#deploying-models-using-mlserver-runtime_rhoai-user)
 
-A model serving runtime for KServe that supports multiple ML frameworks (scikit-learn, XGBoost, LightGBM, MLflow) through a plugin architecture.
+KServe `ServingRuntime` for **traditional ML** frameworks documented in the OpenShift AI deploy path: Scikit-learn, XGBoost, LightGBM, and ONNX, via KFServing V2-style infer endpoints. Marked **Technology Preview** (no production SLAs). Upstream MLServer has a broader plugin list than what the RHOAI deploy wizard documents and auto-configures.
 
 **When to use:** When deploying traditional ML models (classification, regression, etc.) built with frameworks like scikit-learn, XGBoost, or LightGBM in a Kubernetes-native way.
+
+**Common confusion:**
+- Choosing MLServer for LLM token generation or OpenAI-style chat APIs (use **vLLM**).
+- Assuming full production support despite Technology Preview status.
+- Equating upstream MLServer’s plugin catalog with the RHOAI-supported deploy path.
+
+**When not to use:** Do not use MLServer as the primary runtime for generative LLMs — use **vLLM Serving Runtimes**. Prefer a GA runtime (**OVMS**, **Triton**, etc.) when you need production SLAs and MLServer’s Tech Preview status is a blocker. **Model Monitoring (TrustyAI)** still requires OVMS/tabular constraints — serving with MLServer alone does not enable that monitoring path.
 
 **Requirements:**
 - KServe must be installed and the model-serving platform enabled.
@@ -282,9 +297,17 @@ Tools and workflows for customizing pre-trained models (LoRA, QLoRA, full fine-t
 **Details:** [AutoML overview](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/working_with_automl/automl-overview_automl)
 **How to use:** [Create an AutoML optimization run](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/working_with_automl/creating-automl-optimization-run_automl)
 
-Automated machine learning that searches for optimal model architectures, hyperparameters, and preprocessing steps for a given dataset and objective.
+Automated search over model algorithms and configurations for **structured prediction** from **CSV** training data — binary/multiclass classification, regression, and time-series forecasting. Produces a leaderboard and notebooks via AutoGluon-backed pipelines. Technology Preview limits include CSV-only input, size caps, no custom algorithm/hyperparameter configuration, and runs that cannot be edited after creation.
 
 **When to use:** When you want to quickly find the best-performing model and hyperparameters for a structured data problem without manually tuning.
+
+**Common confusion:**
+- Expecting AutoML to train or fine-tune LLMs / deep generative models (supported tasks are tabular/time-series only).
+- Expecting free-form algorithm or hyperparameter control (not available in Tech Preview).
+- Ignoring CSV-only and dataset size constraints.
+- Confusing AutoML with Optuna/Ray Tune-style search over arbitrary deep-learning training loops.
+
+**When not to use:** Do not use AutoML for LLM training/fine-tuning — use **Distributed Workloads** / training operators and gen-AI workflows instead. Do not use it when you need full control of the search space or non-CSV modalities. For a single already-chosen sklearn model, skip AutoML and train/serve directly (**workbenches** + **MLServer**/**OVMS**).
 
 **Requirements:**
 - Distributed Workloads components must be installed (Kueue, Ray and/or Training Operator).
@@ -298,9 +321,17 @@ Automated machine learning that searches for optimal model architectures, hyperp
 **Details:** [Overview of evaluating AI systems](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/evaluating_ai_systems/overview-evaluating-ai-systems_evaluate)
 **How to use:** [Evaluating LLMs with LM-Eval](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/evaluating_ai_systems/evaluating-llms-with-lm-eval_evaluate)
 
-A framework for systematically evaluating LLM performance. Configure `LMEvalJob` resources to run standardized benchmarks, compare model versions, and track metrics over time.
+Batch / job-based evaluation of **generative language models** against standardized (and custom) lm-evaluation-harness-style tasks — accuracy, reasoning, toxicity, Q&A, and similar — via `LMEvalJob`, under the TrustyAI operator. Focuses on **output quality** of the language model itself, not retrieval quality of a RAG pipeline.
 
 **When to use:** When you need to evaluate and compare LLM performance before deploying to production — measuring accuracy, reasoning ability, and task-specific metrics across model versions.
+
+**Common confusion:**
+- Using LMEval to score RAG pipelines (retrieval quality, faithfulness to context) — that is **RAGAS**.
+- Treating LMEval as continuous production drift/bias monitoring — that is **Model Monitoring (TrustyAI)** on tabular/OVMS models.
+- Assuming chat-completions APIs support all harness tasks (many multiple-choice tasks need completions/loglikelihood-capable wiring).
+- Confusing Technology Preview dashboard UX with a fully supported production control plane.
+
+**When not to use:** Do not use LMEval as your primary tool for RAG retrieval/grounding metrics — use **RAGAS**. Do not use it for tabular fairness/drift on predictive models — use **Model Monitoring (TrustyAI)**. For interactive prompt exploration use the **Gen AI Playground**, then LMEval for systematic scoring.
 
 **Requirements:**
 - Set `trustyai` component to `Managed` in the `DataScienceCluster`.
@@ -312,9 +343,17 @@ A framework for systematically evaluating LLM performance. Configure `LMEvalJob`
 **Details:** [Enabling AI safety with NeMo Guardrails](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/enabling_ai_safety_with_guardrails/enabling-ai-safety-with-nemo-guardrails_nemo-guardrails)
 **How to use:** [Deploying the NeMo Guardrails service with an LLM](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/enabling_ai_safety_with_guardrails/enabling-ai-safety-with-nemo-guardrails_nemo-guardrails#deploying-the-nemo-guardrails-service-with-an-llm_nemo-guardrails)
 
-A safety framework that orchestrates detectors to filter and validate LLM inputs and outputs. Supports content filtering, sensitive data detection, topic control, and custom validation rules. Exposes guarded inference endpoints.
+Runtime **input/output safety and policy controls** for LLM applications: sensitive-data detection, regex/content filters, topic and custom rails. Exposes guarded check and/or guarded chat endpoints, managed by the TrustyAI operator. No separate NVIDIA subscription is required on OpenShift AI. This is **request-time filtering/orchestration**, not offline model benchmarking.
 
-**When to use:** When LLM responses must comply with safety, regulatory, or content policies — such as preventing hallucinations, blocking sensitive data leakage, enforcing topic boundaries, or filtering toxic content.
+**When to use:** When LLM responses must comply with safety, regulatory, or content policies — such as blocking sensitive data leakage, enforcing topic boundaries, or filtering toxic content.
+
+**Common confusion:**
+- Treating Guardrails as model-quality evaluation (MMLU-style or RAG faithfulness) rather than live request filtering.
+- Expecting 100% safety from LLM self-check rails alone (docs recommend layering with other defenses).
+- Applying NeMo Guardrails to non-LLM / classical ML inference paths.
+- Assuming Guardrails replaces offline **LMEval** or **RAGAS** scoring.
+
+**When not to use:** Do not use Guardrails as a substitute for systematic LLM or RAG evaluation — use **LMEval** / **RAGAS**. Do not use it for tabular predictive-model serving safety. Do not rely on self-check rails alone for compliance-critical guarantees; combine with deterministic detectors and application-level validation. For exploratory prompt testing without a policy plane, use the **Gen AI Playground**.
 
 **Requirements:**
 - Set `trustyai` component to `Managed` in the `DataScienceCluster`.
@@ -325,9 +364,17 @@ A safety framework that orchestrates detectors to filter and validate LLM inputs
 ### RAGAS Evaluation Provider
 **Docs:** [Overview of evaluating AI systems](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/evaluating_ai_systems/overview-evaluating-ai-systems_evaluate)
 
-Metrics framework for evaluating RAG system quality. Measures retrieval quality, answer relevance, and factual consistency to identify issues in RAG pipeline configurations.
+Objective metrics for **RAG systems**: retrieval quality (for example context precision/recall), answer relevance, and factual consistency/faithfulness to retrieved context. Integrates via TrustyAI / Llama Stack evaluation provider modes (inline vs remote/pipeline). It **measures** RAG configuration quality to drive iteration (chunking, embeddings, retrieval) — it does not replace the RAG stack or enforce policies at request time.
 
 **When to use:** When you need quantitative assessment of your RAG pipeline's quality — checking whether retrieved documents are relevant, answers are grounded in context, and responses are factually consistent.
+
+**Common confusion:**
+- Using RAGAS to benchmark a standalone LLM on general harness tasks (MMLU, GSM8K, etc.) — that is **LMEval**.
+- Equating faithfulness/groundedness scores with runtime content policy enforcement (**Guardrails**).
+- Expecting RAGAS alone to fix retrieval rather than measure it.
+- Ignoring Technology Preview / production-SLA caveats on the Ragas integration.
+
+**When not to use:** Do not use RAGAS for non-RAG LLM capability benchmarks — use **LMEval**. Do not use it as live request filtering — use **Guardrails**. Do not use it for tabular drift/bias — use **Model Monitoring (TrustyAI)**.
 
 **Requirements:**
 - Set `trustyai` component to `Managed` in the `DataScienceCluster`.
@@ -341,14 +388,23 @@ Metrics framework for evaluating RAG system quality. Measures retrieval quality,
 **Details:** [Overview of monitoring your AI systems](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/monitoring_your_ai_systems/overview-of-monitoring-your-ai-systems_monitor)
 **How to use:** [Setting up TrustyAI for your project](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/monitoring_your_ai_systems/setting-up-trustyai-for-your-project_monitor)
 
-Monitoring service that tracks model bias, data drift, and performance degradation over time. Provides configurable metrics, thresholds, and dashboard visualizations.
+Production monitoring of **tabular** model predictions for **bias** (fairness metrics over protected attributes and outcomes) and **data drift** (statistical shift between training reference data and live inference inputs), via a per-project TrustyAI service with configurable metrics, thresholds, and dashboards. This catalog entry is the **drift/bias monitoring service** — not the whole TrustyAI operator umbrella (which also hosts LMEval, Guardrails, RAGAS, and related tools). Monitoring only supports models served with **OpenVINO Model Server (OVMS)**; bias/drift metrics cannot be used with non-tabular models including LLMs, and installing `TrustyAIService` in a namespace with non-tabular models can error the service.
 
-**When to use:** When models are in production and you need to detect performance degradation, data drift, or fairness issues before they impact business outcomes. Critical for regulated industries.
+**When to use:** When tabular models are in production on OVMS and you need to detect data drift or fairness issues before they impact business outcomes. Critical for regulated industries.
+
+**Common confusion:**
+- Equating “TrustyAI” (the operator umbrella) with this drift/bias monitoring service alone.
+- Expecting drift/bias metrics on LLMs or other non-tabular deployments.
+- Expecting monitoring of models on non-OVMS runtimes (for example vLLM).
+- Using it as a substitute for LLM benchmarks, RAG quality scoring, or input/output safety filtering.
+
+**When not to use:** Do not use Model Monitoring (TrustyAI drift/bias) for generative / non-tabular models, or for models not served with OVMS. For LLM capability/toxicity-style checks use **LM Evaluation (LMEval)**; for RAG groundedness/retrieval quality use **RAGAS**; for runtime content/PII/topic controls use **Guardrails (NeMo Guardrails)**. Prefer **OVMS** when you need this monitoring on tabular models.
 
 **Requirements:**
 - Set `trustyai` component to `Managed` in the `DataScienceCluster`.
 - A TrustyAI service instance must be installed in each project containing models to monitor.
 - Model serving platform must be enabled.
+- Models to monitor must be served with OpenVINO Model Server (OVMS).
 - Optional: for database-backed storage instead of PVC, configure a MySQL or MariaDB 10.5+ database secret before deploying TrustyAI.
 - For KServe RawDeployment mode: update the `inferenceservice-config` ConfigMap and create a CA certificate ConfigMap in the model's namespace.
 
@@ -356,9 +412,17 @@ Monitoring service that tracks model bias, data drift, and performance degradati
 **Details:** [Playground overview](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/experimenting_with_models_in_the_gen_ai_playground/playground-overview_rhoai-user)
 **How to use:** [Configure a playground for your project](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/experimenting_with_models_in_the_gen_ai_playground/configuring-a-playground-for-your-project_rhoai-user)
 
-An interactive browser-based environment for experimenting with deployed models. Supports prompt engineering, parameter tuning, and side-by-side model comparison.
+Interactive **dashboard experimentation** with deployed (and external) generative models **before** application integration: prompt and parameter tuning, optional RAG knowledge sources, MCP tools, side-by-side comparison, and export of a Python starter template. Technology Preview — Red Hat does not recommend production use. Chat history and parameter settings are not preserved across refresh/session end (saved prompts via the Prompt tab → MLflow are the persistence path). Qualitative try-out is not the same as harness/RAGAS metrics.
 
-**When to use:** When you want to quickly test and compare deployed models with different prompts and parameters before integrating them into applications — useful for prompt engineering and model selection.
+**When to use:** When you want to quickly test and compare deployed generative models with different prompts and parameters before integrating them into applications — useful for prompt engineering and model selection.
+
+**Common confusion:**
+- Treating the playground as a production chat application or multi-user service.
+- Expecting durable chat/session state across refresh.
+- Using playground clicks as a substitute for reproducible **LMEval** / **RAGAS** jobs or **Guardrails** policy enforcement.
+- Confusing playground “evaluate” (qualitative try-out) with harness/RAGAS metrics.
+
+**When not to use:** Do not deploy the playground as the production user-facing LLM UI — build an application against served endpoints (**vLLM**/KServe, optionally **Guardrails**). Do not rely on it for regression gates — use **LMEval** / **RAGAS**. Use it for prompt/model selection experiments, then export and harden elsewhere.
 
 **Requirements:**
 - OpenShift AI dashboard component must be enabled.
@@ -388,9 +452,17 @@ Integration with MLflow for experiment tracking, model logging, metric recording
 **Details:** [Overview of machine learning features and Feature Store](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/working_with_machine_learning_features/overview-of-ml-features-and-feature-store.adoc_featurestore)
 **How to use:** [Configuring Feature Store](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/working_with_machine_learning_features/configuring_feature_store)
 
-A centralized service for defining, storing, and serving reusable machine learning features. Ensures consistent feature computation between training and serving (avoiding training-serving skew). Integrated with workbenches.
+Feast-based **centralized feature definitions** with offline (training/batch) and online (low-latency serving) paths so the **same feature logic** is reused across training and inference. Reduces training–serving skew and lets teams share feature tables across projects. Integrated with workbenches. This is for ML feature tables/time-series features — not a vector database or RAG document store. You still own offline/online stores and materialization pipelines; live distributional drift alerts remain **Model Monitoring (TrustyAI)**.
 
-**When to use:** When multiple models or teams share computed features and you need to ensure consistency between training-time and serving-time feature values, or when you want to avoid redundant feature engineering.
+**When to use:** When multiple models or teams share computed features and you need to ensure consistency between training-time and serving-time feature values, or when you want low-latency online feature serving without redundant feature engineering.
+
+**Common confusion:**
+- Adopting a feature store for a single-model, single-team, batch-only scoring job where one warehouse query already defines train and score features.
+- Treating Feature Store as a vector database / RAG document store.
+- Expecting Feature Store to replace drift monitoring.
+- Assuming features appear without owning stores and materialization.
+
+**When not to use:** Skip Feature Store when features are request-scoped only, unused across models/teams, and batch scoring already shares one definition — keep transforms in shared libraries or SQL. Do not use it as a substitute for RAG vector storage.
 
 **Requirements:**
 - Set `feastoperator` component to `Managed` in the `DataScienceCluster`.
