@@ -16,9 +16,9 @@ Read [openshift-ai-components.md](../../docs/openshift-ai-components.md). This i
 
 ### 2. Analyze the project
 
-Spawn a `project-scanner` subagent. Pass it the contents of `references/detection-signals.md` as the detection signals catalog. The subagent returns a structured summary of what it found, grouped by category.
+Spawn a `project-scanner` subagent. Pass it the contents of `references/detection-signals.md`. Each category lists capability patterns plus a short **RHOAI:** tag for OpenShift AI / ODH presence. The subagent returns a structured summary grouped by category, with an Implementation sign (`generic` | `openshift-ai` | `openshift`) on each finding.
 
-Summarize the findings to the user before proceeding. Name concrete files, imports, and patterns discovered.
+Summarize the findings to the user before proceeding. Name concrete files, imports, and patterns discovered. Explicitly call out which capabilities are already on **OpenShift AI** or **OpenShift** versus generic DIY/third-party implementations.
 
 ### 3. Identify beneficial additions
 
