@@ -16,13 +16,20 @@ Read [openshift-ai-components.md](../../docs/openshift-ai-components.md). This i
 
 ### 2. Analyze the project
 
-Spawn a `project-scanner` subagent. Pass it the contents of `references/detection-signals.md`. Each category lists capability patterns plus a short **RHOAI:** tag for OpenShift AI / ODH presence. The subagent returns a structured summary grouped by category, with an Implementation sign (`generic` | `openshift-ai` | `openshift`) on each finding.
+Spawn a `project-scanner` subagent. Pass it the contents of `references/detection-signals.md`. Each category lists capability patterns, a **Stage:** tag, and a short **RHOAI:** tag for OpenShift AI / ODH presence. The subagent returns **Capabilities** (per category, with Implementation `generic` | `openshift-ai` | `openshift`) plus factual **Flows** (observed stage chains and handoffs). Step 2 records what exists only — no gaps, no component pitches.
 
-Summarize the findings to the user before proceeding. Name concrete files, imports, and patterns discovered. Explicitly call out which capabilities are already on **OpenShift AI** or **OpenShift** versus generic DIY/third-party implementations.
+Summarize to the user before proceeding:
+
+- Lead with each discovered **flow** as a stage chain. Name concrete files, imports, and handoffs.
+- Per stage, call out **OpenShift AI** / **OpenShift** versus generic DIY/third-party.
+- Add a compact **Capabilities** appendix for categories that did not join a flow.
+- Do not suggest missing components here.
 
 ### 3. Identify beneficial additions
 
-Read `references/adoption-bundles.md` and `references/signal-component-map.md`. Based on step 2 findings, identify components the project is **missing** that would bring the most value. Categorize each suggestion:
+Read `references/adoption-bundles.md` and `references/signal-component-map.md`. Using the step 2 **flow map and capabilities**, identify components the project is **missing** that would bring the most value. Prefer suggestions that extend an **observed** flow over “category not found globally.” Each reason must cite a flow (or capability evidence) that makes the addition relevant.
+
+Categorize each suggestion:
 
 - **Observability** — drift detection, bias monitoring (TrustyAI)
 - **Verification** — model evaluation, RAG quality scoring (LMEval, RAGAS)
@@ -36,7 +43,7 @@ For each suggestion, state the category and a one-line reason why it matters for
 
 Read `references/signal-component-map.md`. Cross-reference with step 2 findings to find where existing code **already does what an OpenShift AI component does**.
 
-For each overlap, spawn a `migration-evaluator` subagent. Pass it the component name, its description from the catalog, and the project analysis summary from step 2. Each subagent returns an easy or more complex verdict.
+For each overlap, spawn a `migration-evaluator` subagent. Pass it the component name, its description from the catalog, and the full project analysis from step 2 (capabilities **and** the relevant flow(s) with stages and handoffs). Each subagent returns an easy or more complex verdict.
 
 Launch all subagents in parallel. Present as a checklist:
 
@@ -52,7 +59,7 @@ Both easy and more complex migrations carry forward to step 5.
 
 ### 5. Assess effort vs. value
 
-Go over **all** suggestions from steps 3 and 4. For each candidate (both additions and migrations), spawn an `effort-assessor` subagent. Pass it the component name, its description from the catalog, whether it is a migration or addition, and the project analysis summary from step 2. Each subagent returns a worth-it or not-worth-it verdict.
+Go over **all** suggestions from steps 3 and 4. For each candidate (both additions and migrations), spawn an `effort-assessor` subagent. Pass it the component name, its description from the catalog, whether it is a migration or addition, and the full project analysis from step 2 (capabilities **and** the relevant flow(s)). Each subagent returns a worth-it or not-worth-it verdict grounded in that flow’s evidence.
 
 Launch all subagents in parallel. Present the results. Only components marked "worth it" carry forward to step 6. Components marked "not worth it" go into a "future improvements" note with the reason.
 
@@ -82,13 +89,15 @@ Future improvements (not worth it now):
 
 ⚠️ (show this emoji) [Component] (more complex)
     Why not now: [a sentence — what makes the effort or risk too high right now]
+
+⚠️ ...
 ```
 
 Omit any section that has zero items.
 
 ### 6. Ask the user's goal
 
-Read `references/adoption-bundles.md`. Cross-reference step 2 findings against each bundle's prerequisites. A bundle qualifies when 2+ prerequisites are already present. Most projects qualify for 0 bundles. Never suggest more than 2.
+Read `references/adoption-bundles.md`. Cross-reference step 2 findings against each bundle's prerequisites. A bundle qualifies when 2+ prerequisites appear **on the same flow** (not scattered unrelated hits). Most projects qualify for 0 bundles. Never suggest more than 2.
 
 The user already saw the full details in step 5. Build `AskQuestion` options as short labels only. Title: "What would you like to do?" Include only the options that apply:
 

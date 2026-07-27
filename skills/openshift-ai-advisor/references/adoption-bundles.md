@@ -1,6 +1,6 @@
 # Adoption Bundles
 
-A bundle is a group of components that solve one problem together. Suggest a bundle when step 2 findings show 2+ of its prerequisites already exist in the project. Zero prerequisites means greenfield; skip it.
+A bundle is a group of components that solve one problem together. Suggest a bundle when step 2 findings show 2+ of its prerequisites on the **same observed flow** (not scattered unrelated hits). Zero prerequisites means greenfield; skip it.
 
 ---
 
