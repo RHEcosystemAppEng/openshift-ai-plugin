@@ -9,6 +9,7 @@
   "repository": "https://github.com/ikatav/openshift-ai-skills",
   "license": "Apache-2.0",
   "keywords": [
+    "OpenShift AI",
     "openshift-ai",
     "kubernetes",
     "red-hat",
