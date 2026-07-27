@@ -63,20 +63,24 @@ Output the following to the user, filling in one entry per component:
 ```
 Migrations worth doing:
 
-✅ [Component] (easy)
+✅ (show this emoji) [Component] (easy)
     Replaces: [what existing code/infra it replaces]
-    Why here: [2-3 sentences — why this component fits this project specifically, referencing concrete files or patterns found]
-    Tip: [one actionable suggestion — e.g. order of migration, what to test first, or a gotcha to watch for]
+    Problem: [1-2 sentences — concrete gap from the scan, with file/pattern evidence]
+    Solution: [1-2 sentences — what this component does and the first step to adopt it]
+
+✅ ...
 
 Additions worth doing:
 
-✅ [Component] ([category])
-    Why here: [2-3 sentences — what gap it fills in this project, tied to specific findings from the scan]
-    Tip: [one actionable suggestion — e.g. start with X before Y, pair with Z, or a quick win to try first]
+✅ (show this emoji) [Component] ([category])
+    Problem: [1-2 sentences — concrete gap from the scan, with file/pattern evidence]
+    Solution: [1-2 sentences — what this component does and the first step to adopt it]
+
+✅ ...
 
 Future improvements (not worth it now):
 
-⚠️ [Component] (more complex)
+⚠️ (show this emoji) [Component] (more complex)
     Why not now: [a sentence — what makes the effort or risk too high right now]
 ```
 

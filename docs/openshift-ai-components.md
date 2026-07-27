@@ -948,6 +948,30 @@ Feast-based **centralized feature definitions** with offline (training/batch) an
 
 ## Platform & Infrastructure
 
+### Red Hat Connectivity Link (RHCL)
+**Details:** [About Connectivity Link](https://docs.redhat.com/en/documentation/red_hat_connectivity_link/1.4/html/red_hat_connectivity_link/rhcl-introduction)
+**How to use:** [Installing on OpenShift Container Platform](https://docs.redhat.com/en/documentation/red_hat_connectivity_link/1.4/html/installing_connectivity_link/rhcl-install-on-ocp)
+
+A Kuadrant-based control plane for the Gateway API data plane on OpenShift. Attaches `TLSPolicy`, `AuthPolicy`, `RateLimitPolicy`, and `DNSPolicy` to `Gateway` / `HTTPRoute` resources so teams can secure, rate-limit, and (with DNSPolicy) multicluster load-balance north-south ingress without embedding networking in applications. MCP gateway features in Connectivity Link 1.4 are Technology Preview on top of this core.
+
+**When to use:** When you need Gateway API ingress policy—auth, rate limiting, TLS lifecycle, or DNS-driven multicluster load balancing—across single- or multi-cluster OpenShift, rather than application-embedded networking.
+
+**Common confusion:**
+- Equating RHCL with **MCP Gateway** / **MCP Gateway Authorization** (TP features on top of RHCL, not the platform itself).
+- Treating RHCL as a replacement for OpenShift Service Mesh east-west mTLS / sidecars.
+- Expecting LLM inference routing or agent tooling from RHCL alone — those are **llm-d** / **Gateway API Inference Extension** / MCP stacks that use RHCL.
+- Using RHCL where a plain OpenShift Route, Ingress, or single-cluster HTTPRoute would suffice.
+- Expecting full API design/registry lifecycle from RHCL GA (Apicurio pieces are Developer Preview).
+
+**When not to use:** Do not use RHCL for simple single-cluster HTTP exposure — use Routes, Ingress, or plain Gateway API. Do not use it as a Service Mesh substitute for east-west mTLS or mesh AuthorizationPolicy. Do not install it expecting MCP tool federation or tool RBAC — use **MCP Gateway** / **MCP Gateway Authorization**. Do not treat it as the inference scheduler — use **llm-d** / **Gateway API Inference Extension**; RHCL is often a prerequisite, not the model-serving layer.
+
+**Requirements:**
+- Connectivity Link 1.4.1 or later (1.4.0 is deprecated); supported on OpenShift Container Platform 4.19–4.22 (and Dedicated / ROSA / ARO per product docs).
+- Install the Red Hat Connectivity Link Operator (`rhcl-operator`, `stable` channel) and create a `Kuadrant` CR (Authorino, Limitador, and DNS Operators install as dependencies).
+- Install cert-manager Operator for Red Hat OpenShift 1.18; configure a certificate issuer before using `TLSPolicy`.
+- A Gateway API provider: on OCP 4.19+, Cluster Ingress Operator `GatewayClass` `openshift-default`; on OCP 4.18 or older, OpenShift Service Mesh is required (Service Mesh 3.2 or 3.3 per docs).
+- Optional: cloud DNS or CoreDNS for `DNSPolicy`; shared Redis-compatible store for multicluster `RateLimitPolicy`; Red Hat build of Keycloak 26.4 (or API keys) for `AuthPolicy`.
+
 ### Hardware Profiles & Accelerator Management
 **Details:** [Overview of accelerators](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/working_with_accelerators/overview-of-accelerators_accelerators)
 **How to use:** [Working with hardware profiles](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/working_with_accelerators/working-with-hardware-profiles_accelerators)
