@@ -2,7 +2,7 @@
 
 Use this table to match **capability** findings to OpenShift AI components. Read top-to-bottom; pick the first row that matches.
 
-Whether a finding is already on OpenShift AI / OpenShift is signed by the project-scanner (`generic` | `openshift-ai` | `openshift`) from the **RHOAI:** tags in [detection-signals.md](detection-signals.md)—not by this table.
+Whether a finding is already on OpenShift AI / OpenShift is signed by the project-scanner (`generic` | `openshift-ai` | `openshift`) from the **RHOAI:** tags in [detection-signals.md](detection-signals.md)—not by this table. Prefer mapping findings that sit on an observed **flow** from the scanner when choosing additions.
 
 | What was found | Suggested component |
 |---|---|
