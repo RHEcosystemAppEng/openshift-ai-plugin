@@ -16,16 +16,24 @@ Determine whether migrating existing project code or infrastructure to a specifi
 ## Workflow
 
 1. Identify which existing code or infrastructure in the project does the same job as the component. Use the capabilities and the relevant flow(s); explore the specific files they reference.
-2. Assess migration difficulty by checking for the four complexity indicators:
-   - **Touches many files** — the implementation is spread across the codebase, requiring changes in many places at once
-   - **Tightly coupled to business logic** — the code is interleaved with application logic, making it difficult to extract cleanly
-   - **Has downstream dependents** — other parts of the system depend on the current implementation's API, data format, or behavior (including later stages on the same flow)
-   - **Uses non-standard patterns** — custom protocols, proprietary formats, or integrations that don't map cleanly to the OpenShift AI component
+2. Assess migration difficulty against these four dimensions. Ground each in specific files; record counts where possible:
+   - **Blast radius** — how many files must change to replace the current implementation (count them).
+   - **Coupling** — whether the implementation sits behind a swappable boundary, or is interleaved with application/business logic.
+   - **Downstream dependents** — how many other modules, services, or later flow stages depend on the current API, data format, or behavior.
+   - **Interface mismatch** — whether the OpenShift AI component’s inputs/outputs map cleanly (1:1 or thin adapter) or require a non-trivial rewrite.
 3. Return exactly one verdict:
 
-**Easy to migrate** — state what gets replaced, which files are affected, and what the migration involves.
+**More complex to migrate** — if any of the following is true:
+   - Blast radius ≥ 10 files, or the change spans ≥ 3 packages/services
+   - Two or more of: high coupling, ≥ 2 downstream dependents, severe interface mismatch
+   - Severe interface mismatch alone (no thin adapter; consumers must change contract)
+   - Insufficient evidence to judge (default to more complex)
 
-**More complex to migrate** — state what gets replaced, plus which of the four indicators apply and why.
+   State what gets replaced, which dimensions fired, and the file/path evidence.
+
+**Easy to migrate** — none of the above. State what gets replaced, which files are affected, and what the migration involves.
+
+Do not factor in project maturity, priority vs other components, or whether the work is worth doing now — that belongs to the effort assessor.
 
 ## Guidelines
 
