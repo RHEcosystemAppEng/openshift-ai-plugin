@@ -27,7 +27,7 @@ Summarize to the user before proceeding:
 
 ### 3. Identify beneficial additions
 
-Read `references/adoption-bundles.md` and `references/signal-component-map.md`. Using the step 2 **flow map and capabilities**, identify components the project is **missing** that would bring the most value. Prefer suggestions that extend an **observed** flow over “category not found globally.” Each reason must cite a flow (or capability evidence) that makes the addition relevant.
+Read `references/adoption-bundles.md` and `references/signal-component-map.md`. Using the step 2 **flow map and capabilities**, identify components the project is **missing** that would bring the most value. Prefer suggestions that extend an **observed** flow over “category not found globally.” Each Problem must cite a flow (or capability evidence) that makes the addition relevant.
 
 Categorize each suggestion:
 
@@ -37,13 +37,20 @@ Categorize each suggestion:
 - **Governance** — versioning, audit trails, stage promotion (Model Registry, Model Catalog)
 - **Automation** — pipelines, experiment tracking (KFP, MLflow)
 
-For each suggestion, state the category and a one-line reason why it matters for this project. Present as a categorized list. Do not include components the project already has.
+For each suggestion, state the category and explain it with Problem / Solution. Present as a categorized list. Do not include components the project already has.
+
+```
+[Category]
+✅ [Component]
+    Problem: [1-2 sentences — concrete gap from the scan, with file/pattern evidence]
+    Solution: [1-2 sentences — what this component does and the first step to adopt it]
+```
 
 ### 4. Evaluate migration candidates
 
 Read `references/signal-component-map.md`. Cross-reference with step 2 findings to find where existing code **already does what an OpenShift AI component does**.
 
-For each overlap, spawn a `migration-evaluator` subagent. Pass it the component name, its description from the catalog, and the full project analysis from step 2 (capabilities **and** the relevant flow(s) with stages and handoffs). Each subagent returns an easy or more complex verdict.
+For each overlap that isn't identified as an addition at step 3, spawn a `migration-evaluator` subagent. Pass it the component name, its description from the catalog, and the full project analysis from step 2 (capabilities **and** the relevant flow(s) with stages and handoffs). Each subagent returns an easy or more complex verdict.
 
 Launch all subagents in parallel. Present as a checklist:
 
@@ -65,7 +72,12 @@ Launch all subagents in parallel. Present the results. Only components marked "w
 
 #### Show the results
 
-Output the following to the user, filling in one entry per component:
+Populate from step 5 verdicts only:
+- **Migrations worth doing** ← step 4 candidates marked worth-it
+- **Additions worth doing** ← step 3 candidates marked worth-it
+- **Future improvements** ← marked not-worth-it
+
+Do not print the source notes. Output the following to the user, filling in one entry per component, using simple and understandable language:
 
 ```
 Migrations worth doing:
