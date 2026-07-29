@@ -15,6 +15,10 @@ Suppose your project already contains a RAG pipeline. The advisor will suggest:
 
 You pick what to adopt — for example, only the RAG Stack migration. The agent then proposes implementation approaches, wires the component into your project, and verifies it works in your environment. You do not need prior knowledge of OpenShift AI; the advisor handles the details.
 
+#### Output of a real example
+
+[ai-driven-network-remediation](examples/ai-driven-network-remediation.md)
+
 Works with **Cursor**, **Claude Code**, and **OpenAI Codex**.
 
 Tested and refined across multiple repositories over 40+ iterations.
