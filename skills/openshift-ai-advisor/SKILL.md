@@ -37,7 +37,7 @@ Categorize each suggestion:
 - **Governance** — versioning, audit trails, stage promotion (Model Registry, Model Catalog)
 - **Automation** — pipelines, experiment tracking (KFP, MLflow)
 
-For each suggestion, state the category and explain it with Problem / Solution. Present as a categorized list. Do not include components the project already has.
+For each suggestion, state the category and explain it with Problem / Solution. Build this as an internal categorized list — **do not show it to the user**; carry it to step 5. Do not include components the project already has.
 
 ```
 [Category]
@@ -52,7 +52,7 @@ Read `references/signal-component-map.md`. Cross-reference with step 2 findings 
 
 For each overlap that isn't identified as an addition at step 3, spawn a `migration-evaluator` subagent. Pass it the component name, its description from the catalog, and the full project analysis from step 2 (capabilities **and** the relevant flow(s) with stages and handoffs). Each subagent returns an easy or more complex verdict.
 
-Launch all subagents in parallel. Present as a checklist:
+Launch all subagents in parallel. Build this as an internal checklist — **do not show it to the user**; carry it to step 5:
 
 ```
 Migration Candidates:
@@ -64,25 +64,32 @@ More complex:
 
 Both easy and more complex migrations carry forward to step 5.
 
-### 5. Assess effort vs. value
+### 5. Rank suggested flows (impact, then complexity)
 
-Go over **all** suggestions from steps 3 and 4. For each candidate (both additions and migrations), spawn an `effort-assessor` subagent. Pass it the component name, its description from the catalog, whether it is a migration or addition, and the full project analysis from step 2 (capabilities **and** the relevant flow(s)). Each subagent returns a worth-it or not-worth-it verdict grounded in that flow’s evidence.
+First recommendation surface after step 2. Assess **all** step 3 additions and step 4 migrations yourself (no subagent).
 
-Launch all subagents in parallel. Present the results. Only components marked "worth it" carry forward to step 6. Components marked "not worth it" go into a "future improvements" note with the reason.
+Read `references/suggested-flow-rubric.md`. For each candidate:
+
+1. Build one **suggested flow** = one step-2 observed flow + one component (one component per suggested flow). Keep the pairing internal — do not invent display labels.
+2. Score **Impact** (`high` / `medium` / `low`) and **Complexity** (`low` / `medium` / `high`) per the rubric. Impact=`high` only when the change improves AI outcome quality on that flow (correctness, eval, safety, reliability) — not platform packaging alone. Complexity follows touch count (files/model/config/operators).
+3. Rank lexicographically: Impact high→low, then Complexity low→high.
+4. **Cut:** worth doing only if Impact=`high` **and** Complexity is `low` or `medium`. Everything else → Future (including high impact + high complexity).
+
+Only worth-doing suggested flows carry forward to step 6.
 
 #### Show the results
 
-Populate from step 5 verdicts only:
-- **Migrations worth doing** ← step 4 candidates marked worth-it
-- **Additions worth doing** ← step 3 candidates marked worth-it
-- **Future improvements** ← marked not-worth-it
+Populate from the cut only:
+- **Migrations worth doing** ← step 4 suggested flows that pass the cut
+- **Additions worth doing** ← step 3 suggested flows that pass the cut
+- **Future improvements** ← suggested flows that fail the cut
 
-Do not print the source notes. Output the following to the user, filling in one entry per component, using simple and understandable language:
+Present worth-doing lists in rank order. Show the **component name** only (no suggested-flow labels). Do not print internal score sheets. Output the following to the user, using simple and understandable language:
 
 ```
 Migrations worth doing:
 
-✅ (show this emoji) [Component] (easy)
+✅ (show this emoji) [Component] (easy|more complex)
     Replaces: [what existing code/infra it replaces]
     Problem: [1-2 sentences — concrete gap from the scan, with file/pattern evidence]
     Solution: [1-2 sentences — what this component does and the first step to adopt it]
@@ -99,8 +106,8 @@ Additions worth doing:
 
 Future improvements (not worth it now):
 
-⚠️ (show this emoji) [Component] (more complex)
-    Why not now: [a sentence — what makes the effort or risk too high right now]
+⚠️ (show this emoji) [Component] (Impact: …, Complexity: …)
+    Why not now: [a sentence — impact too low, not a quality win, or complexity too high]
 
 ⚠️ ...
 ```
@@ -144,5 +151,6 @@ When confirmed, run one subagent per component, sequentially. Each subagent read
 - If the use case spans multiple categories, break it into phases.
 - Never run execution subagents until the user confirms the plan.
 - Keep the direct-fits list to 2-4 items. Move anything requiring significant rework to "future improvements."
+- Never dump raw step 3/4 candidates; only step 5’s ranked suggested flows.
 
 **Reply:** the execution plan from step 7, confirmed by the user, then the results of each component addition.

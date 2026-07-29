@@ -33,7 +33,7 @@ Determine whether migrating existing project code or infrastructure to a specifi
 
 **Easy to migrate** — none of the above. State what gets replaced, which files are affected, and what the migration involves.
 
-Do not factor in project maturity, priority vs other components, or whether the work is worth doing now — that belongs to the effort assessor.
+Do not factor in project maturity, priority vs other components, or whether the work is worth doing now — that belongs to the advisor’s step 5 suggested-flow rubric (impact, then complexity).
 
 ## Guidelines
 
