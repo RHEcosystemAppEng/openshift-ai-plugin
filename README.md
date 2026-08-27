@@ -78,7 +78,7 @@ Then use `@plugin-creator` to add it to your personal marketplace, or invoke ski
 2. Detects your project structure (Helm, Kustomize, raw YAML, compose).
 3. Generates manifests matching your version and deployment style.
 4. Wires the component into your application code.
-5. Writes tests via an unbiased sub-agent (black-box, contract-only).
+5. Writes tests via the `unbiased-test-writer` skill (black-box, contract-only).
 6. Deploys and verifies — nothing is applied without your approval.
 
 All generated manifests and tests align with the OpenShift AI version running on your cluster, not a hardcoded default.

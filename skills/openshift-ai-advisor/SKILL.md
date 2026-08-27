@@ -16,7 +16,7 @@ Read [openshift-ai-components.md](../../docs/openshift-ai-components.md). This i
 
 ### 2. Analyze the project
 
-Spawn a `project-scanner` subagent. Pass it the contents of `references/detection-signals.md`. Each category lists capability patterns, a **Stage:** tag, and a short **RHOAI:** tag for OpenShift AI / ODH presence. The subagent returns **Capabilities** (per category, with Implementation `generic` | `openshift-ai` | `openshift`) plus factual **Flows** (observed stage chains and handoffs). Step 2 records what exists only — no gaps, no component pitches.
+Follow [project-scanner](../project-scanner/SKILL.md). If this host can start an isolated worker, run that skill in a fresh worker; otherwise follow it in this session. Pass only the contents of `references/detection-signals.md`. Each category lists capability patterns, a **Stage:** tag, and a short **RHOAI:** tag for OpenShift AI / ODH presence. The skill returns **Capabilities** (per category, with Implementation `generic` | `openshift-ai` | `openshift`) plus factual **Flows** (observed stage chains and handoffs). Step 2 records what exists only — no gaps, no component pitches.
 
 Summarize to the user before proceeding:
 
@@ -50,9 +50,9 @@ For each suggestion, state the category and explain it with Problem / Solution. 
 
 Read `references/signal-component-map.md`. Cross-reference with step 2 findings to find where existing code **already does what an OpenShift AI component does**.
 
-For each overlap that isn't identified as an addition at step 3, spawn a `migration-evaluator` subagent. Pass it the component name, its description from the catalog, and the full project analysis from step 2 (capabilities **and** the relevant flow(s) with stages and handoffs). Each subagent returns an easy or more complex verdict.
+For each overlap that isn't identified as an addition at step 3, follow [migration-evaluator](../migration-evaluator/SKILL.md). If this host can start an isolated worker, run that skill in a fresh worker; otherwise follow it in this session. Pass only the component name, its description from the catalog, and the full project analysis from step 2 (capabilities **and** the relevant flow(s) with stages and handoffs). Each run returns an easy or more complex verdict.
 
-Launch all subagents in parallel. Build this as an internal checklist — **do not show it to the user**; carry it to step 5:
+Launch all evaluator runs in parallel. Build this as an internal checklist — **do not show it to the user**; carry it to step 5:
 
 ```
 Migration Candidates:
@@ -66,7 +66,7 @@ Both easy and more complex migrations carry forward to step 5.
 
 ### 5. Rank suggested flows (impact, then complexity)
 
-First recommendation surface after step 2. Assess **all** step 3 additions and step 4 migrations yourself (no subagent).
+First recommendation surface after step 2. Assess **all** step 3 additions and step 4 migrations yourself (do not invoke a worker skill).
 
 Read `references/suggested-flow-rubric.md`. For each candidate:
 
@@ -113,6 +113,7 @@ Future improvements (not worth it now):
 ```
 
 Omit any section that has zero items.
+You **must** show the results for the user!
 
 ### 6. Ask the user's goal
 
@@ -139,7 +140,7 @@ Execution Plan:
 
 **Wait for explicit user confirmation.**
 
-When confirmed, run one subagent per component, sequentially. Each subagent reads the `add-openshift-ai-component` skill and receives the component name plus the context string from the plan.
+When confirmed, run one worker per component, sequentially. Each worker follows [add-openshift-ai-component](../add-openshift-ai-component/SKILL.md) (isolated worker if the host has one; otherwise follow that skill in this session) and receives the component name plus the context string from the plan.
 
 ## Guardrails
 
@@ -149,7 +150,7 @@ When confirmed, run one subagent per component, sequentially. Each subagent read
 - Prefer the simplest component set that solves the problem.
 - Mention dependencies so the user knows the full deployment scope.
 - If the use case spans multiple categories, break it into phases.
-- Never run execution subagents until the user confirms the plan.
+- Never run execution workers until the user confirms the plan.
 - Keep the direct-fits list to 2-4 items. Move anything requiring significant rework to "future improvements."
 - Never dump raw step 3/4 candidates; only step 5’s ranked suggested flows.
 
