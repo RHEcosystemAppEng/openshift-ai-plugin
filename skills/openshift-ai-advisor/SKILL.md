@@ -115,7 +115,7 @@ Future improvements (not worth it now):
 Omit any section that has zero items.
 You **must** show the results for the user!
 
-### 6. Ask the user's goal
+### 6. Decision on how to act
 
 Read `references/adoption-bundles.md`. Cross-reference step 2 findings against each bundle's prerequisites. A bundle qualifies when 2+ prerequisites appear **on the same flow** (not scattered unrelated hits). Most projects qualify for 0 bundles. Never suggest more than 2.
 
@@ -125,7 +125,7 @@ The user already saw the full details in step 5. Build `AskQuestion` options as 
 2. **Add [component name]** — one option per approved addition. Example: *"Add NeMo Guardrails"*
 3. **[Bundle name] bundle** (0-2 options) — just the bundle name. Example: *"RAG bundle"*
 
-If the user picks a bundle, its components go straight to step 7. If none of the options fit, ask the user to state their goal. One question at a time.
+If the user picks a bundle, its components go straight to step 7. If none of the options fit, ask the user how they want to act. One question at a time.
 
 ### 7. Compile and execute
 
