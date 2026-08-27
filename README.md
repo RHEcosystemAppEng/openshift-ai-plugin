@@ -34,7 +34,7 @@ Tested and refined across multiple repositories over 40+ iterations.
 Or clone manually:
 
 ```bash
-git clone https://github.com/ikatav/openshift-ai-skills.git \
+git clone https://github.com/RHEcosystemAppEng/openshift-ai-plugin.git \
   ~/.cursor/plugins/local/openshift-ai-skills
 ```
 
@@ -51,7 +51,7 @@ Or install from a marketplace once published.
 Clone into your plugins directory:
 
 ```bash
-git clone https://github.com/ikatav/openshift-ai-skills.git \
+git clone https://github.com/RHEcosystemAppEng/openshift-ai-plugin.git \
   ~/.agents/plugins/openshift-ai-skills
 ```
 

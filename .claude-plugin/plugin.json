@@ -4,10 +4,11 @@
   "version": "0.1.0",
   "description": "Add and configure Red Hat OpenShift AI components in your project. Interactive skills for model serving, pipelines, model registry, RAG, training, and more.",
   "author": {
-    "name": "ikatav"
+    "name": "ikatav",
+    "url": "https://github.com/RHEcosystemAppEng/openshift-ai-plugin"
   },
-  "homepage": "https://github.com/ikatav/openshift-ai-skills",
-  "repository": "https://github.com/ikatav/openshift-ai-skills",
+  "homepage": "https://github.com/RHEcosystemAppEng/openshift-ai-plugin",
+  "repository": "https://github.com/RHEcosystemAppEng/openshift-ai-plugin",
   "license": "Apache-2.0",
   "keywords": [
     "OpenShift AI",
