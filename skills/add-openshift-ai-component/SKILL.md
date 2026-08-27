@@ -68,7 +68,7 @@ Do not expand scope. The goal is to add the component and connect it to the proj
 
 ## Phase 5: Test
 
-Launch the **`unbiased-test-writer`** agent. It must not have access to this conversation or the Phase 4 implementation. Pass it the component name and catalog entry, the public contract (endpoints, CRD status fields, health checks, expected behaviors from the official docs), the deployment target and namespace, and the project's test conventions (framework, directory, naming, run command) only.
+Follow [unbiased-test-writer](../unbiased-test-writer/SKILL.md). If this host can start an isolated worker, run that skill in a fresh worker; otherwise follow it in this session. It must not have access to this conversation or the Phase 4 implementation. Pass only the component name and catalog entry, the public contract (endpoints, CRD status fields, health checks, expected behaviors from the official docs), the deployment target and namespace, and the project's test conventions (framework, directory, naming, run command).
 
 
 ## Phase 6: Deploy and verify

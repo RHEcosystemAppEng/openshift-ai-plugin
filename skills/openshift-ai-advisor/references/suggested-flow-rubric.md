@@ -1,6 +1,6 @@
 # Suggested-flow rubric (step 5)
 
-The main advisor agent scores every **suggested flow** from steps 3 and 4 (no subagent).
+The main advisor agent scores every **suggested flow** from steps 3 and 4 (do not invoke a worker skill).
 
 ## Unit
 
